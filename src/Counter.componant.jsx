@@ -3,7 +3,7 @@ import { Component } from "react";
 export default class Counter extends Component{
     constructor(props){
         super()
-        this.state = {counter: +props.counter};
+        this.state = {counter: +props.counter, previous: +props.startNum};
         this.changeCountToFive = this.changeCountToFive.bind(this)
         this.countUp = this.countUp.bind(this)
         this.countDown = this.countDown.bind(this)
@@ -13,13 +13,29 @@ export default class Counter extends Component{
         this.setState({counter: 5})
     }
     countUp(){
-        this.state.counter % 7 == 0 ? this.setState({counter:"Boom"}) : this.setState({counter: this.state.counter+1})
+        this.state.counter += 1;
+        if (this.state.counter % 7 === 0) {
+          this.setState({ previous: this.state.counter, counter: "Boom" });
+        } else {
+          this.setState({
+            previous: this.state.counter,
+            counter: this.state.counter,
+          });
+        }
     }
     countDown(){
-        this.setState({counter: this.state.counter-1})
+        this.state.counter -= 1;
+        if (this.state.counter % 7 === 0) {
+          this.setState({ previous: this.state.counter, counter: "Boom" });
+        } else {
+          this.setState({
+            previous: this.state.counter,
+            counter: this.state.counter,
+          });
+        }
     }
     setCountToZero(){
-        this.setState({counter: 0})
+        this.setState({ counter: 0, previous: 0 });
     }
 
     render(){
